@@ -39,17 +39,17 @@ RUN apt install -yq vim \
 		openssh-server \
 		sudo \
 		wget \
-   	ca-certificates \
+   	        ca-certificates \
 		gfortran-6 \
 		libgfortran-6-dev \
 		openmpi-bin  \
 		libopenmpi-dev \
-    libopenblas-base \
-   	libopenblas-dev \
-   	libfftw3-3 \
+                libopenblas-base \
+         	libopenblas-dev \
+   	        libfftw3-3 \
 		libfftw3-bin \
  		libfftw3-dev \
-   	libfftw3-double3  \
+   	        libfftw3-double3  \
 		libblacs-openmpi1 \
 		libblacs-mpi-dev \
 		net-tools \
@@ -59,7 +59,7 @@ RUN apt install -yq vim \
 #
 # we create the user 'qe' and add it to the list of sudoers
 RUN  adduser -q --disabled-password --gecos qe qe \
-     && echo "qe 	ALL=(ALL:ALL) ALL" >>/etc/sudoers \
+           && echo "qe 	ALL=(ALL:ALL) ALL" >>/etc/sudoers \
 #
 # we add /home/qe to the PATH of user 'qe'
 	   && echo "export PATH=/home/qe/bin:${PATH}" >>/home/qe/.bashrc \
@@ -79,12 +79,12 @@ RUN wget  --no-verbose  http://qe-forge.org/gf/download/frsrelease/224/1044/qe-6
          http://qe-forge.org/gf/download/frsrelease/224/1043/qe-6.0-examples.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1042/qe-6.0-test-suite.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1041/qe-6.0-emacs_modes.tar.gz \
-	       http://people.sissa.it/~inno/qe/qe.tgz \
+         http://people.sissa.it/~inno/qe/qe.tgz \
 	&& tar xzf qe-6.0.tar.gz \
 	&& tar xzf qe-6.0-examples.tar.gz -C qe-6.0 \
 	&& tar xzf qe-6.0-test-suite.tar.gz -C qe-6.0 \
 	&& tar xzf qe-6.0-emacs_modes.tar.gz \
-  && tar xzf qe.tgz \
+        && tar xzf qe.tgz \
 	&& chown -R qe:qe /home/qe   \
 	&& (echo "qe:mammamia"|chpasswd) \
 	&& rm qe-6.0.tar.gz \
