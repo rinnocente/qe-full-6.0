@@ -16,7 +16,7 @@ This image is for a **QE** container that is reachable through ssh.
 
 You can run the container in background  with :
 ```
-  $ CONT=`docker run -P -d -t rinnocente/qe-full`
+  $ CONT=`docker run -P -d -t rinnocente/qe-full-6.0`
 ```
 in this way (-P) the std ssh port (=22) is mapped on a free port of the host. We can access the container discovering the port of the host on which the container ssh service is mapped :
 ```
@@ -37,7 +37,7 @@ The normal way in which you use this container is sharing an input-output direct
 ```
 and when you run the container you share this directory with the container as a volume :
 ```
- $ CONT=`docker run -v ~/qe-in-out:/home/qe/qe-in-out -P -d -t rinnocente/qe-full`
+ $ CONT=`docker run -v ~/qe-in-out:/home/qe/qe-in-out -P -d -t rinnocente/qe-full-6.0`
  $ PORT=`docker port $CONT|sed -e 's#.*:##'`
  $ ssh -p $PORT qe@127.0.0.1
 ```
