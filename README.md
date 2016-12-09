@@ -54,7 +54,8 @@ Or even remove it if you don't want to re-use it :
 $ docker rm -f $CONT
 ```
 ---
-The Dockerfile is on github : [Dockerfile](https://github.com/rinnocente/qe-full-6.0 )
+The Dockerfile is on github : [Dockerfile](https://github.com/rinnocente/qe-full-6.0/blob/master/Dockerfile )
+
 
 ### NB. this container is reachable via ssh through **your host port $PORT**, eventually from Internet at large.
 
