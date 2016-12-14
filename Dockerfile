@@ -21,8 +21,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 # that is very slow, with the new mirror method :
 # deb mirror://mirror.ubuntu.com/mirrors.txt ...
 #
-ADD  http://people.sissa.it/~inno/qe/sources.list-16.10 /etc/apt/
-RUN  chmod 644 /etc/apt/sources.list
+# mirror method seems broken in yakkety
+#ADD  http://people.sissa.it/~inno/qe/sources.list-16.10 /etc/apt/
+#RUN  chmod 644 /etc/apt/sources.list
 #
 # we update the apt database
 # and because for the docker repository we use the https transport
