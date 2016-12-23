@@ -73,9 +73,8 @@ WORKDIR /home/qe
 # we copy the 'qe' files 
 # then we unpack them
 
-# This is a possibilitiy download and compile sources.
-# But .. if you do it in a dockerfile then you need in your computer the
-# same environment you are going to setup in the container.
+# This is a possible way to build the container download and compile sources.
+# In this way the container is dependent on files on http://qe-forge.org.
 RUN wget  --no-verbose  http://qe-forge.org/gf/download/frsrelease/224/1044/qe-6.0.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1043/qe-6.0-examples.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1042/qe-6.0-test-suite.tar.gz \
