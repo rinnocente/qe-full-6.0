@@ -26,8 +26,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 #RUN  chmod 644 /etc/apt/sources.list
 #
 # we update the apt database
-# and because for the docker repository we use the https transport
-# we install it
 #
 RUN  apt-get update 
 #
@@ -89,7 +87,7 @@ RUN wget  --no-verbose  http://qe-forge.org/gf/download/frsrelease/224/1044/qe-6
 	&& (echo "qe:mammamia"|chpasswd) \
 	&& rm qe-6.0.tar.gz \
 	      qe-6.0-examples.tar.gz \
-	      qe-6.0-test-suite.tar.gz \
+	      qe-6.0-test-sucite.tar.gz \
 	      qe-6.0-emacs_modes.tar.gz \
 	      qe.tgz
 #
