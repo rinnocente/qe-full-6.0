@@ -8,8 +8,8 @@ FROM ubuntu:16.10
 #
 MAINTAINER roberto innocente <inno@sissa.it>
 #
-# this directive was added to the dockerfile syntax not long ago (https://github.com/docker/docker/issues/14634)
-# it permits to define ARGs to be used only during the build and not in operations.
+# the ARG directive was added to the dockerfile syntax not long ago (https://github.com/docker/docker/issues/14634)
+# it permits to define varsbe used only during the build and not in operations.
 # if it is not supported then the "DEBIAN_FRONTEND=noninteractive" definition
 # should be placed in front of every apt install to silence the warning messages
 # apt  would produce
