@@ -1,9 +1,9 @@
 # qe-full-6.0
 Quantum Espresso 6.0 Dockerfile
 
-This container is different from the one for QE 5.4.0 ( https://github.com/rinnocente/qe-full ) because  :
-- it uses an Ubuntu 16.10 base image and therefore gfortran-6
-- it takes directly the sources from the official QE repositories and compiles them with gfortran-6 during the docker build phase
+This container   :
+- uses an Ubuntu 16.10 base image and therefore gfortran-6
+- takes directly the sources from the official QE repositories and compiles them with gfortran-6 during the docker build phase
 
 
 **Quantum Espresso** is a widely used package for electronic structure calculations.
@@ -41,6 +41,9 @@ and when you run the container you share this directory with the container as a 
  $ PORT=`docker port $CONT|sed -e 's#.*:##'`
  $ ssh -p $PORT qe@127.0.0.1
 ```
+Using the rootfs of the container (managed with a union file system) is not recommended for
+important I/O because the UFS can be quite inefficient.
+
 ---
 The container does not die when you logout the ssh session because it is backgrounded.
 
