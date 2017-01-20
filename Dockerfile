@@ -25,15 +25,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 #RUN  chmod 644 /etc/apt/sources.list
 #
 # we update the apt database
-# and because for the docker repository we use the https transport
-# we install it
 #
 RUN  apt-get -yq update \
      && apt-get -yq install apt-utils 
 #     && apt-get -yq upgrade 
 #
-# we update the package list 
-# and install vim openssh, sudo, wget, gfortran, openblas, blacs,
+# we install vim openssh, sudo, wget, gfortran, openblas, blacs,
 # fftw3, openmpi , ...
 # and run ssh-keygen -A to generate all possible keys for the host
 #
