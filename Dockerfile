@@ -1,7 +1,6 @@
 #
-# Quantum Espresso 6.0 version : 
-#       a program for electronic structure calculations
-#       ssh version, using gfortran-6
+# Quantum Espresso : a program for electronic structure calculations
+#    ssh version
 #
 #
 # For many reasons we need to fix the ubuntu release:
@@ -21,13 +20,17 @@ ARG DEBIAN_FRONTEND=noninteractive
 # that is very slow, with the new mirror method :
 # deb mirror://mirror.ubuntu.com/mirrors.txt ...
 #
-# mirror method seems broken in yakkety
-#ADD  http://people.sissa.it/~inno/qe/sources.list-16.10 /etc/apt/
+# commented because with yakkety now it dies 
+#ADD  http://people.sissa.it/~inno/qe/sources.list-16.10 /etc/apt/sources.list
 #RUN  chmod 644 /etc/apt/sources.list
 #
 # we update the apt database
+# and because for the docker repository we use the https transport
+# we install it
 #
-RUN  apt-get update 
+RUN  apt-get -yq update \
+     && apt-get -yq install apt-utils 
+#     && apt-get -yq upgrade 
 #
 # we update the package list 
 # and install vim openssh, sudo, wget, gfortran, openblas, blacs,
@@ -35,59 +38,66 @@ RUN  apt-get update
 # and run ssh-keygen -A to generate all possible keys for the host
 #
 RUN apt install -yq vim \
-		openssh-server \
-		sudo \
-		wget \
-   	        ca-certificates \
-		gfortran-6 \
-		libgfortran-6-dev \
-		openmpi-bin  \
-		libopenmpi-dev \
-                libopenblas-base \
-         	libopenblas-dev \
-   	        libfftw3-3 \
-		libfftw3-bin \
- 		libfftw3-dev \
-   	        libfftw3-double3  \
-		libblacs-openmpi1 \
-		libblacs-mpi-dev \
-		net-tools \
-		make \
-		autoconf \
+ 		openssh-server  \
+ 		sudo  \
+ 		wget  \
+         	ca-certificates  \
+ 		openmpi-bin   \
+         	libopenblas-base  \
+         	libopenblas-dev  \
+         	libfftw3-3  \
+ 		libfftw3-bin  \
+  		libfftw3-dev  \
+         	libfftw3-double3   \
+ 		libblacs-openmpi1  \
+ 		libblacs-mpi-dev  \
+ 		net-tools  \
+ 		make  \
+ 		autoconf  \
+ 		libopenmpi-dev  \
+ 		libgfortran-6-dev  \
+ 		gfortran-6  \
+	&& apt autoremove \
 	&& ssh-keygen -A
 #
 # we create the user 'qe' and add it to the list of sudoers
 RUN  adduser -q --disabled-password --gecos qe qe \
-           && echo "qe 	ALL=(ALL:ALL) ALL" >>/etc/sudoers \
+	&& echo "qe 	ALL=(ALL:ALL) ALL" >>/etc/sudoers \
 #
 # we add /home/qe to the PATH of user 'qe'
-	   && echo "export PATH=/home/qe/bin:${PATH}" >>/home/qe/.bashrc \
-	   && mkdir -p /home/qe/.ssh/  \
-	   && chown qe:qe /home/qe/.ssh
+	&& echo "export PATH=/home/qe/bin:${PATH}" >>/home/qe/.bashrc \
+# to avoid that ubuntu openblas try to use multithreading that conflicts with mpi
+# assignments
+	&& echo "export OMP_NUM_THREADS=1" >>/home/qe/.bashrc \
+	&& mkdir -p /home/qe/.ssh/  \
+	&& chown qe:qe /home/qe/.ssh
 #
 # we move to /home/qe
 WORKDIR /home/qe
 #
-# we copy the 'qe' files 
-# then we unpack them
+# we copy the 'qe' files and the needed shared libraries to /home/qe
+# then we unpack them : the 'qe' directly there, the shared libs
+# from /
 
-# This is a possible way to build the container download and compile sources.
-# In this way the container is dependent on files on http://qe-forge.org.
+
+# This is a possibilitiy download and compile sources.
+# But .. if you do it in a dockerfile then you need in your computer the
+# same environment you are going to setup in the container.
 RUN wget  --no-verbose  http://qe-forge.org/gf/download/frsrelease/224/1044/qe-6.0.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1043/qe-6.0-examples.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1042/qe-6.0-test-suite.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1041/qe-6.0-emacs_modes.tar.gz \
-         http://people.sissa.it/~inno/qe/qe.tgz \
+	 http://people.sissa.it/~inno/qe/qe.tgz \
 	&& tar xzf qe-6.0.tar.gz \
 	&& tar xzf qe-6.0-examples.tar.gz -C qe-6.0 \
 	&& tar xzf qe-6.0-test-suite.tar.gz -C qe-6.0 \
 	&& tar xzf qe-6.0-emacs_modes.tar.gz \
-        && tar xzf qe.tgz \
+     	&& tar xzf qe.tgz \
 	&& chown -R qe:qe /home/qe   \
 	&& (echo "qe:mammamia"|chpasswd) \
 	&& rm qe-6.0.tar.gz \
 	      qe-6.0-examples.tar.gz \
-	      qe-6.0-test-sucite.tar.gz \
+	      qe-6.0-test-suite.tar.gz \
 	      qe-6.0-emacs_modes.tar.gz \
 	      qe.tgz
 #
@@ -100,12 +110,14 @@ WORKDIR  /home/qe/qe-6.0
 RUN ./configure \
     && make all \
     && mkdir ../mpibin \
-    && cp bin/* ../mpibin/
+    && cp bin/* ../mpibin/ \
+    && rm bin/* \
 #
-RUN ./configure -disable-parallel \
+    && ./configure -disable-parallel \
     && make all \
     && mkdir ../bin \
-    && cp bin/* ../bin/ 
+    && cp bin/* ../bin/ \
+    && rm bin/*
 #
 RUN wget http://people.sissa.it/~inno/qe/qe.tgz \
     && tar xzf qe.tgz \
