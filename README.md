@@ -1,5 +1,5 @@
 # qe-full-6.0
-Quantum Espresso 6.0 Dockerfile
+Quantum Espresso 6.0 Dockerfile all sources/all binaries
 
 This container   :
 - uses an Ubuntu 16.10 base image and therefore gfortran-6
