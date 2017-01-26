@@ -35,7 +35,6 @@ in this way (-P) the std ssh port (=22) is mapped on a free port of the host. We
   $ PORT=`docker port $CONT 22 |sed -e 's#.*:##'`
   $ ssh -p $PORT qe@127.0.0.1
 ```
-the initial password for the 'qe' user is 'mammamia', don't forget to change it immediately.
 
 The **QE** container has the  full QuantumEspresso distribution plus binaries, and parallel binaries.
 As with smaller images it still has the files for a quick test.
