@@ -10,6 +10,8 @@ This container   :
 
 Further information is  available on its website : [www.quantum-espresso.org](http://www.quantum-espresso.org/).
 
+More info on docker installation for running QE available at [http://people.sissa.it/%7Einno/pubs/easiest_way_to_run_qe.html](http://people.sissa.it/%7Einno/pubs/easiest_way_to_run_qe.html)
+
 ---
 ### Only local access allowed :
 
