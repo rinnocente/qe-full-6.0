@@ -11,10 +11,22 @@ This container   :
 Further information is  available on its website : [www.quantum-espresso.org](http://www.quantum-espresso.org/).
 
 ---
+### Only local access allowed :
 
-This image is for a **QE** container that is reachable through ssh.
+You can use locally the container without logging in  typing :
 
-You can run the container in background  with :
+```
+$ docker run -it -u qe rinnocente/qe-full-6.0 /bin/bash
+```
+
+in this way you will be inside the container as user ```qe```. Change its password
+that initially is set to *mammamia* , with the **passwd** command.
+
+### Also remote access via **ssh** :
+If you want to access directly the container from outside your machine or you want to share the container with collaborators, then you have to start it in background with a running **sshd** (but first change the password for user ``qe`` with a local access).
+
+You can run the container in background  with **sshd** typing :
+
 ```
   $ CONT=`docker run -P -d -t rinnocente/qe-full-6.0`
 ```
