@@ -21,11 +21,10 @@ You can use locally the container without logging in  typing :
 $ docker run -it -u qe rinnocente/qe-full-6.0 /bin/bash
 ```
 
-in this way you will be inside the container as user ```qe```. Change its password
-that initially is set to *mammamia* , with the **passwd** command.
+in this way you will be inside the container as user ```qe```. 
 
 ### Also remote access via **ssh** :
-If you want to access directly the container from outside your machine or you want to share the container with collaborators, then you have to start it in background with a running **sshd** (but first change the password for user ``qe`` with a local access).
+If you want to access directly the container from outside your machine or you want to share the container with collaborators, then you have to start it in background with a running **sshd**.
 
 You can run the container in background  with **sshd** typing :
 
@@ -37,6 +36,7 @@ in this way (-P) the std ssh port (=22) is mapped on a free port of the host. We
   $ PORT=`docker port $CONT 22 |sed -e 's#.*:##'`
   $ ssh -p $PORT qe@127.0.0.1
 ```
+Change the password that initially is set to *mammamia* , with the **passwd** command.
 
 The **QE** container has the  full QuantumEspresso distribution plus binaries, and parallel binaries.
 As with smaller images it still has the files for a quick test.
