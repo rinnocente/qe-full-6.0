@@ -77,9 +77,8 @@ WORKDIR /home/qe
 # from /
 
 
-# This is a possibilitiy download and compile sources.
-# But .. if you do it in a dockerfile then you need in your computer the
-# same environment you are going to setup in the container.
+# A possible way to make the image is to download and compile all sources.
+# unpack them and remove the tars.
 RUN wget  --no-verbose  http://qe-forge.org/gf/download/frsrelease/224/1044/qe-6.0.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1043/qe-6.0-examples.tar.gz \
          http://qe-forge.org/gf/download/frsrelease/224/1042/qe-6.0-test-suite.tar.gz \
@@ -98,7 +97,6 @@ RUN wget  --no-verbose  http://qe-forge.org/gf/download/frsrelease/224/1044/qe-6
 	      qe-6.0-emacs_modes.tar.gz \
 	      qe.tgz
 #
-
 RUN sed -i 's#^StrictModes.*#StrictModes no#' /etc/ssh/sshd_config \
 	&& service   ssh  restart  
 #
@@ -119,11 +117,8 @@ RUN ./configure \
 RUN wget http://people.sissa.it/~inno/qe/qe.tgz \
     && tar xzf qe.tgz \
     && rm qe.tgz
-
-
+#
 EXPOSE 22
-
 #
 # the container can be now reached via ssh
 CMD [ "/usr/sbin/sshd","-D" ]
-
