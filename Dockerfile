@@ -63,8 +63,7 @@ RUN  adduser -q --disabled-password --gecos qe qe \
 #
 # we add /home/qe to the PATH of user 'qe'
 	&& echo "export PATH=/home/qe/bin:${PATH}" >>/home/qe/.bashrc \
-# to avoid that ubuntu openblas try to use multithreading that conflicts with mpi
-# assignments
+# to avoid that ubuntu openblas tries to use multithreading that conflicts with mpi
 	&& echo "export OMP_NUM_THREADS=1" >>/home/qe/.bashrc \
 	&& mkdir -p /home/qe/.ssh/  \
 	&& chown qe:qe /home/qe/.ssh
